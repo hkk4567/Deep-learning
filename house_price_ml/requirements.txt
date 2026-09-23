@@ -1,0 +1,12 @@
+# Pipeline ML (khong Deep Learning) - du doan SalePrice tren du lieu bang
+# Pin theo phien ban da kiem tra chay duoc trong sandbox (P0, 2026-09-22)
+# Khong can torch/tensorflow/CUDA vi khong dung DL - RTX5060 khong bat buoc cho du an nay.
+
+pandas==3.0.2
+numpy==2.4.4
+scikit-learn==1.8.0
+xgboost==3.4.1
+matplotlib==3.10.8
+joblib==1.5.3
+PyYAML==6.0.3
+openpyxl==3.1.5

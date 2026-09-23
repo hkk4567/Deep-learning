@@ -1,0 +1,9 @@
+05_experiments/**/*.pt
+05_experiments/**/*.pth
+05_experiments/**/*.ckpt
+01_data/processed/
+00_raw/
+/.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

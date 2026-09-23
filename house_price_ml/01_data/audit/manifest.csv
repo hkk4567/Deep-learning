@@ -1,0 +1,2 @@
+rel_path,ext,size,sha256,label,orig_split,width,height,mode,corrupt,is_junk,usable
+train.csv,.csv,460676,1e18addf81e5e4d347cc17ee6075bbe4a42b7fa26b9e5b063e8f692a5f929d41,,,,,,False,False,True

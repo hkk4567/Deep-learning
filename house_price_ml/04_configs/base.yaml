@@ -1,0 +1,39 @@
+# Cau hinh co so. Moi thi nghiem = 1 ban sao cua file nay (04_configs/exp_XXX.yaml),
+# chi doi MOT thu so voi thi nghiem cha. Ghi Exp_ID + hash file nay vao sheet Experiments.
+project: house_price_ml
+task: tabular            # image_classification | text_classification | tabular | time_series | audio | segmentation | detection
+seed: 42
+
+data:
+  raw_dir: 00_raw
+  split_file: 01_data/splits/split_v1.csv     # tao bang scripts/make_splits.py
+  num_workers: 2
+  input_size: [224, 224]                      # doi voi anh; bo qua neu khong ap dung
+
+model:
+  name: resnet18
+  pretrained: true                            # du lieu nho -> uu tien transfer learning
+  num_classes: null                           # dien sau khi audit nhan
+
+train:
+  epochs: 20
+  batch_size: 64
+  optimizer: adamw
+  lr: 3.0e-4
+  weight_decay: 1.0e-2
+  scheduler: cosine
+  warmup_epochs: 1
+  amp: true
+  grad_clip: 1.0
+  early_stopping: {monitor: val_metric, mode: max, patience: 5}
+
+augment:
+  train: []                                   # chi ap dung cho train
+  eval: []                                    # chi resize/normalize
+
+eval:
+  metric: macro_f1                            # chon theo bai toan (xem references/task_playbooks.md)
+  threshold: null
+
+output:
+  dir: 05_experiments/EXP-XXXX
