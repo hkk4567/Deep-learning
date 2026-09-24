@@ -2,6 +2,7 @@
 05_experiments/**/*.pth
 05_experiments/**/*.ckpt
 01_data/processed/
+01_data/splits/
 00_raw/
 /.venv/
 __pycache__/
