@@ -2,6 +2,9 @@ import pandas as pd, numpy as np
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import math
+import os
+
+os.makedirs("06_reports/eda/eda_plots/by_group", exist_ok=True)
 
 df = pd.read_csv('01_data/splits/split_v1_selected_features.csv')
 train = df[df['split']=='train'].copy()
