@@ -1,0 +1,16 @@
+{
+  "best_params": {
+    "subsample": 0.7,
+    "reg_lambda": 1.5,
+    "reg_alpha": 0.1,
+    "n_estimators": 1200,
+    "min_child_weight": 2,
+    "max_depth": 2,
+    "learning_rate": 0.03,
+    "colsample_bytree": 1.0
+  },
+  "cv_rmse_log_train": 0.11364564534281674,
+  "val_rmsle": 0.12454554515987197,
+  "val_mae": 14763.810546875,
+  "val_r2": 0.9291727542877197
+}
