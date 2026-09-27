@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: 1500px 660px; margin: 0; }
+  * { box-sizing: border-box; }
+  body {
+    width: 1500px; height: 660px; margin: 0; padding: 28px 34px;
+    background: #FBF7EE; font-family: 'DejaVu Sans', Arial, sans-serif; color: #1f2a1f;
+  }
+  h1.title { font-size: 34px; color: #0E5C4A; margin: 0 0 4px 0; font-weight: 800; }
+  .authors { font-size: 18px; color: #2E7D32; margin: 0 0 16px 0; font-weight: 600; }
+  .cols { display: table; width: 100%; table-layout: fixed; border-spacing: 22px 0; }
+  .col { display: table-cell; width: 33.3%; vertical-align: top; }
+  .col > .box { margin-bottom: 14px; }
+  .box { background: #FFFFFF; border-radius: 10px; padding: 14px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  h2 { font-size: 21px; color: #0E5C4A; margin: 0 0 8px 0; border-bottom: 3px solid #A9D18E; padding-bottom: 4px; }
+  h3 { font-size: 15px; color: #1B5E20; margin: 10px 0 4px 0; }
+  p, li { font-size: 13.5px; line-height: 1.35; margin: 4px 0; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 6px 0; }
+  table.data th { background: #CDE7C4; padding: 4px 6px; text-align: left; }
+  table.data td { padding: 4px 6px; border-bottom: 1px solid #eee; }
+  .highlight { background: #FFF3CD; border-left: 4px solid #E6A700; padding: 8px 10px; border-radius: 4px; font-weight: 600; }
+  table.statrow { width: 100%; border-collapse: collapse; margin: 6px 0; table-layout: fixed; }
+  table.statrow td { text-align: center; padding: 2px 0; }
+  .stat .num { font-size: 28px; font-weight: 800; color: #0E5C4A; display: block; }
+  .stat .lab { font-size: 12px; color: #555; display: block; }
+  img { max-width: 100%; display: block; margin: 4px auto; border-radius: 6px; }
+  .final-box { background: #E8F5E9; border: 2px solid #2E7D32; }
+  ul { margin: 4px 0; padding-left: 18px; }
+</style>
+</head>
+<body>
+  <h1 class="title">Dự đoán Giá Nhà bằng Mô hình Học Máy trên Bộ dữ liệu Ames Housing</h1>
+  <div class="authors">Huỳnh Kiện Khải — Khoa Công nghệ Thông tin, Trường Đại học Sài Gòn</div>
+
+  <div class="cols">
+    <!-- COT 1 -->
+    <div class="col">
+      <div class="box">
+        <h2>Mở đầu</h2>
+        <h3>Input</h3>
+        <p>79 đặc trưng mô tả nhà ở (khu đất, vị trí, chất lượng, tầng hầm, garage...) từ Kaggle House Prices - Ames Housing.</p>
+        <h3>Output</h3>
+        <p>Giá bán dự đoán (SalePrice, USD) — bài toán hồi quy.</p>
+        <h3>Thách thức</h3>
+        <ul>
+          <li>19 cột thiếu dữ liệu, phần lớn "thiếu có ý nghĩa"</li>
+          <li>2 ngoại lai đã biết (Partial sale, giá bất thường thấp)</li>
+          <li>Chỉ 1460 mẫu — nguy cơ overfit cao</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h2>Tập dữ liệu</h2>
+        <p>Nguồn: Kaggle - House Prices: Advanced Regression Techniques (Ames Housing).</p>
+        <p>1460 dòng → 1458 sau loại ngoại lai → chia 70/15/15 (seed=42):</p>
+        <table class="data">
+          <tr><th>Train</th><th>Val</th><th>Test</th></tr>
+          <tr><td>1020</td><td>219</td><td>219</td></tr>
+        </table>
+        <p>71/79 đặc trưng được chọn có căn cứ EDA (loại 8 cột tín hiệu yếu: PoolArea, Fence, MiscFeature...).</p>
+      </div>
+      <div class="box">
+        <h2>Khám phá dữ liệu (chỉ trên train)</h2>
+        <img src="poster_assets/n3.png" style="max-height:220px;object-fit:contain;">
+        <p>Top tương quan với SalePrice: <b>OverallQual (0.79)</b>, GrLivArea (0.69), GarageCars (0.64).</p>
+      </div>
+    </div>
+
+    <!-- COT 2 -->
+    <div class="col">
+      <div class="box">
+        <h2>Tiền xử lý &amp; Xử lý missing</h2>
+        <table class="data">
+          <tr><th>Cột</th><th>Cách xử lý</th></tr>
+          <tr><td>18 cột chất lượng</td><td>Ordinal encode (Po&lt;Fa&lt;TA&lt;Gd&lt;Ex)</td></tr>
+          <tr><td>MasVnrArea, GarageYrBlt</td><td>Điền 0 (thiếu = không tồn tại)</td></tr>
+          <tr><td>LotFrontage</td><td>Median-impute (học từ train)</td></tr>
+          <tr><td>22 cột danh định</td><td>One-Hot Encoding</td></tr>
+        </table>
+        <p><b>Kiểm chứng:</b> pipeline chỉ học từ train → <span style="color:#2E7D32;font-weight:700;">PASSED</span> (không rò rỉ).</p>
+        <p>Kết quả: <b>205 đặc trưng</b> sau mã hóa.</p>
+      </div>
+      <div class="box">
+        <h2>Ma trận tương quan (đặc trưng số)</h2>
+        <img src="poster_assets/heatmap.png" style="max-height:280px;object-fit:contain;">
+        <p style="font-size:11.5px;color:#555;">3 cụm cộng tuyến rõ: GrLivArea/FullBath/TotRmsAbvGrd; GarageCars/GarageArea; TotalBsmtSF/BsmtUnfSF/BsmtFinSF1.</p>
+      </div>
+      <div class="box">
+        <h2>Huấn luyện mô hình</h2>
+        <p>5 cấu hình so sánh (thay 1 yếu tố/lần, đánh giá RMSLE trên val):</p>
+        <ul>
+          <li>Baseline tầm thường (hằng số)</li>
+          <li>XGBoost (mặc định &amp; đã tune)</li>
+          <li>Linear Regression</li>
+          <li><b>Ridge Regression</b> (alpha chọn bằng CV trên train)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- COT 3 -->
+    <div class="col">
+      <div class="box">
+        <h2>So sánh mô hình</h2>
+        <img src="poster_assets/rmsle_compare.png" style="max-height:230px;object-fit:contain;">
+        <div class="highlight">Ridge thắng XGBoost (kể cả đã tune) trên tập dữ liệu bảng quy mô nhỏ này — quan hệ với log(giá) chủ yếu tuyến tính.</div>
+      </div>
+      <div class="box final-box">
+        <h2>Kết quả cuối (Test — mở đúng 1 lần)</h2>
+        <table class="statrow">
+          <tr>
+            <td class="stat"><span class="num">0.130</span><span class="lab">RMSLE</span></td>
+            <td class="stat"><span class="num">$14.3k</span><span class="lab">MAE</span></td>
+            <td class="stat"><span class="num">0.943</span><span class="lab">R²</span></td>
+          </tr>
+        </table>
+        <img src="poster_assets/test_scatter.png" style="max-height:230px;object-fit:contain;">
+      </div>
+      <div class="box">
+        <h2>Phân tích lỗi &amp; Hạn chế</h2>
+        <p>6/10 dự đoán sai nhiều nhất đều có <b>SaleCondition ≠ Normal</b> (bán gấp/nhà mới xây). Ca cực đoan: nhà $34,900 (rẻ nhất dataset) lệch 131%.</p>
+        <p style="font-size:11.5px;color:#555;">→ Giá giao dịch bất thường chịu ảnh hưởng hoàn cảnh bán, không chỉ đặc điểm vật lý căn nhà.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

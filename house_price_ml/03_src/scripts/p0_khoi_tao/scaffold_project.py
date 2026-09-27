@@ -18,9 +18,10 @@ import shutil
 import stat
 import sys
 import zipfile
+import importlib
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import log_change as LC  # noqa: E402
+LC = importlib.import_module("log_change")  # noqa: E402
 from openpyxl import load_workbook  # noqa: E402
 
 DIRS = [
