@@ -1,0 +1,62 @@
+{
+  "tag": "C3",
+  "hidden_sizes": [
+    3,
+    3,
+    3
+  ],
+  "n_params": 37,
+  "layer_shapes": {
+    "network.0.weight": [
+      3,
+      2
+    ],
+    "network.0.bias": [
+      3
+    ],
+    "network.2.weight": [
+      3,
+      3
+    ],
+    "network.2.bias": [
+      3
+    ],
+    "network.4.weight": [
+      3,
+      3
+    ],
+    "network.4.bias": [
+      3
+    ],
+    "network.6.weight": [
+      1,
+      3
+    ],
+    "network.6.bias": [
+      1
+    ]
+  },
+  "val_mse_nap_lai": 1.2189719200250693e-05,
+  "val_mse_da_luu": 1.2189719200250693e-05,
+  "test_nap_lai": {
+    "test_mse": 1.5163341231527738e-05,
+    "test_rmse": 0.0038940135119857684,
+    "test_mae": 0.0026196250692009926
+  },
+  "test_mse_da_luu": 1.5163341231527738e-05,
+  "kich_thuoc": {
+    "train": 720,
+    "val": 180,
+    "test": 100
+  },
+  "checks": {
+    "test_mse_tai_lap": true,
+    "val_mse_tai_lap": true,
+    "val_mse_checkpoint_khop": true,
+    "train_val_test_khong_giao_nhau": true,
+    "tong_kich_thuoc_bang_n": true,
+    "kich_thuoc_khop_cau_hinh": true,
+    "so_tham_so_khop_cong_thuc": true,
+    "du_doan_huu_han": true
+  }
+}

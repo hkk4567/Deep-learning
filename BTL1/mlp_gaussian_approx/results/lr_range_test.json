@@ -1,0 +1,35 @@
+{
+  "config": {
+    "steps": 400,
+    "lr_min": 1e-05,
+    "lr_max": 1.0,
+    "seeds": [
+      42,
+      43,
+      44
+    ]
+  },
+  "per_seed": {
+    "42": {
+      "lr_steepest": 0.002546918438974575,
+      "lr_min_loss": 1.0000000000000262,
+      "lr_min_loss_div10": 0.10000000000000261,
+      "lr_diverge": null,
+      "min_loss_smooth": 0.002537219730753693
+    },
+    "43": {
+      "lr_steepest": 0.0020219220618983803,
+      "lr_min_loss": 1.0000000000000262,
+      "lr_min_loss_div10": 0.10000000000000261,
+      "lr_diverge": null,
+      "min_loss_smooth": 0.0024721170717529085
+    },
+    "44": {
+      "lr_steepest": 0.0037061441382662827,
+      "lr_min_loss": 1.0000000000000262,
+      "lr_min_loss_div10": 0.10000000000000261,
+      "lr_diverge": null,
+      "min_loss_smooth": 0.003219174011230801
+    }
+  }
+}
